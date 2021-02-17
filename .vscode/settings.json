@@ -1,0 +1,18 @@
+{
+    "sqltools.connections": [
+        {
+            "mysqlOptions": {
+                "authProtocol": "default"
+            },
+            "previewLimit": 50,
+            "server": "47.94.251.125",
+            "port": 3306,
+            "askForPassword": true,
+            "driver": "MySQL",
+            "name": "root",
+            "group": "ali_server",
+            "database": "root",
+            "username": "C2hWhWISkbirFv86"
+        }
+    ]
+}

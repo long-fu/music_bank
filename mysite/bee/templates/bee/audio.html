@@ -1,0 +1,23 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的音乐</title>
+</head>
+
+<body>
+    <div class='list-container'>
+        {% for item in list %}
+        <div class='row-container'>
+            <img class='cover' src="/media/{{item.cover}}" width="80px" height="80px">
+            <a>{{item.duration}}</a>
+            <a href="/media/{{item.path}}">{{item.title}}</a>
+            <a>{{item.author}}</a>
+            <a>{{item.album}}</a>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+
+</html>

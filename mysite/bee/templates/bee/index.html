@@ -1,0 +1,28 @@
+<!--前台展示的数据 -->
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'bee/style.css' %}">
+    <title>文件管理</title>
+</head>
+
+<body>
+    {% if file_list %}
+    <ul>
+        {% for file in file_list %}
+        <li>
+            <img src="/media/{{file.image_path}}" alt="" width=80px height=80px>
+            <a href="">{{file.file_name}}</a>
+            <a href="/media/{{file.file_path}}">打开文件</a>
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>No File are available.</p>
+    {% endif %}
+</body>
+
+</html>
