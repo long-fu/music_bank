@@ -4,10 +4,11 @@ import django.utils.timezone as timezone
 
 import os
 import sys
+
 from pymediainfo import MediaInfo
 import json
 
-path = os.path.abspath(os.path.dirname(sys.argv[0]))
+# path = os.path.abspath(os.path.dirname(sys.argv[0]))
 
 class Audio(models.Model):
     
