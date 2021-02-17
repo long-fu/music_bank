@@ -39,7 +39,7 @@ class Audio(models.Model):
     channel = models.IntegerField(default=0)
 
     # 类型 流派
-    genre = models.CharField(max_length=64,default='None')
+    genre = models.CharField(max_length=64,default='未知')
 
     # 专辑图片
     # cover = models.FileField(upload_to='audio/image',null=True,blank=True)
@@ -51,7 +51,7 @@ class Audio(models.Model):
     size = models.FloatField(default=0.0)
 
     # 录制日期
-    recorded_date = models.CharField(max_length=16,default='2020')
+    recorded_date = models.CharField(max_length=16,default='2022')
 
     # 文件添加时间
     pub_time = models.DateTimeField('time published',auto_now_add=True)
@@ -66,17 +66,17 @@ class Audio(models.Model):
 
         duration = 0
         bit_rate = 0
-        genre = 'None'
+        genre = '未知'
         title = ''
-        album = ''
+        album = '未知'
         sampling_rate = 0
         channels = 0
-        recorded_date = '2020'
-        internet_media_type = 'None'
+        recorded_date = '2022'
+        internet_media_type = '未知'
         performer = '未知'
 
         media_info = MediaInfo.parse(self.path).to_json()
-        # print(json.loads(media_info))
+        # print(media_info)
         media_info = json.loads(media_info)
         tracks = media_info["tracks"]
 
@@ -84,38 +84,41 @@ class Audio(models.Model):
             track_type = track["track_type"]
             if track_type == 'General':
                 duration = track['duration']
-                title = track['title']
-                genre = track['genre']
-                recorded_date = track['recorded_date']
-                album = track['album']
-                internet_media_type = track['internet_media_type']
-                performer = track['performer']
+                title = track.get('title','')
+                genre = track.get('genre','未知')
+                recorded_date = track.get('recorded_date','2022')
+                album = track.get('album','未知')
+                internet_media_type = track.get('internet_media_type','audio/mpeg')
+                performer = track.get('performer','未知')
                 pass
             elif track_type == 'Audio':
                 duration = track['duration']
                 bit_rate = track['bit_rate']
                 channels = track['channel_s']
                 sampling_rate = track['sampling_rate']
+                internet_media_type = track.get('internet_media_type','audio/mpeg')
                 pass
             else:
                 assert()
                 pass
-            print(type(track_type),track_type)
+            # print(type(track_type),track_type)
             pass
 
-        self.duration = duration
+        
+        # 歌曲标题
         if title != '':
             self.title = title
-        
-        self.genre = genre
-        
-        self.recorded_date = recorded_date
-        
-        self.album = album
 
-        self.media_type = internet_media_type
+        # 专辑
+        if album != '未知':
+            self.album = album
 
-        self.author = performer
+        # 作者
+        if performer != '未知':
+            self.author = performer
+
+        # 一定存在的数据
+        self.duration = duration
 
         self.bit_rate = bit_rate
 
@@ -124,6 +127,16 @@ class Audio(models.Model):
         self.sample_rate = sampling_rate
         
         self.size = self.path.size
+
+        # 存在默认值 
+
+        # 歌曲类型
+        self.genre = genre
+        
+        self.media_type = internet_media_type
+
+        self.recorded_date = recorded_date
+
         super(Audio, self).save(*args, **kwargs)
         
 
